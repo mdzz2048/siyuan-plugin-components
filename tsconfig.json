@@ -24,17 +24,14 @@
         "noFallthroughCasesInSwitch": true,
         "allowJs": true,
         "checkJs": true,
-        "types": [
-            "node",
-            "vite/client",
-        ]
+        "types": []
     },
     "include": [
         "tools/**/*.ts",
-        "src/**/*.ts",
-        "src/**/*.d.ts",
-        "src/**/*.tsx",
-        "src/**/*.vue"
+        "siyuan/**/*.ts",
+        "siyuan/**/*.d.ts",
+        "siyuan/**/*.tsx",
+        "siyuan/**/*.vue"
     ],
     "root": "."
 }

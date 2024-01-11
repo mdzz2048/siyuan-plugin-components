@@ -1,30 +1,22 @@
 {
-    "name": "siyuan-kit-vue",
-    "version": "0.0.1",
-    "type": "module",
-    "description": "This is a plugin for Siyuan (https://b3log.org/siyuan)",
-    "repository": "",
-    "homepage": "",
-    "author": "mdzz2048",
-    "main": ".src/index.js",
-    "license": "Apache-2.0",
-    "scripts": {
-      "dev": "vite",
-      "build": "vite build --watch",
-      "build-only": "vite build",
-      "lint": "eslint . --fix --cache"
-    },
-    "keywords": [],
-    "devDependencies": {
-      "@types/node": "20.8.4",
-      "@vitejs/plugin-vue": "^4.4.1",
-      "@vue/tsconfig": "0.4.0",
-      "sass": "^1.69.5",
-      "typescript": "^5.2.2",
-      "vite": "^4.5.0"
-    },
-    "dependencies": {
-      "vue": "^3.3.8"
-    }
+  "name": "siyuan-kit-vue",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "This is a plugin for Siyuan (https://b3log.org/siyuan)",
+  "repository": "",
+  "homepage": "",
+  "author": "mdzz2048",
+  "main": ".src/index.js",
+  "license": "Apache-2.0",
+  "scripts": {},
+  "keywords": [],
+  "devDependencies": {
+    "@types/node": "20.8.4",
+    "@vue/tsconfig": "0.4.0",
+    "sass": "^1.69.7",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "vue": "^3.4.10"
   }
-  
+}
