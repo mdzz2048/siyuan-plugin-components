@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-    import { IGroupPropsOption } from '.';
-
-    const props = defineProps<IGroupPropsOption>();
+const props = defineProps<{
+    title: string,              // 标题
+}>()
 </script>

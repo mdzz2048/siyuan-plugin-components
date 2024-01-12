@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-    import regexp from '../../../utils/regexp';
+    import regexp from '../../utils/regexp';
 
     type IPropsOption = {
         icon: string,

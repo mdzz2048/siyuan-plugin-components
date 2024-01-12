@@ -1,9 +1,9 @@
 <template>
     <!-- button -->
     <button 
-        v-if="propsOption.type === 'button'"
+        v-if="props.type === 'button'"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="[
             'b3-button b3-button--outline', 
             {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
@@ -13,10 +13,10 @@
 
     <!-- checkbox -->
     <input 
-        v-if="propsOption.type === 'checkbox'"
+        v-if="props.type === 'checkbox'"
         type="checkbox"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="['b3-switch', {'fn__block': block, 'fn__flex-center': !block}]"
         :style="style"
         v-model="value"
@@ -25,10 +25,10 @@
 
     <!-- number -->
     <input 
-        v-if="propsOption.type === 'number'"
+        v-if="props.type === 'number'"
         type="number"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="['b3-text-field', {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
         :min="limit.min"
         :max="limit.max"
@@ -39,11 +39,11 @@
     />
 
     <!-- password -->
-    <template v-if="propsOption.type === 'password'">
+    <template v-if="props.type === 'password'">
         <input 
             type="password"
             :disabled="disabled"
-            :readonly="propsOption.readonly"
+            :readonly="props.readonly"
             :class="[
                 'b3-text-field', 
                 {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
@@ -59,9 +59,9 @@
 
     <!-- select -->
     <select 
-        v-if="propsOption.type === 'select'"
+        v-if="props.type === 'select'"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="[
             'b3-select', 
             {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
@@ -69,17 +69,17 @@
         v-model="value"
         @change="$emit('changed', settingKey, value)"
     >
-        <option v-for="option in propsOption.options" :value="option.key">
+        <option v-for="option in props.options" :value="option.key">
             {{ option.text }}
         </option>
     </select>
 
     <!-- slider -->
     <input 
-        v-if="propsOption.type === 'slider'"
+        v-if="props.type === 'slider'"
         type="range"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="['b3-slider', {'fn__block': block, 'fn__size200': !block && normal}]"
         :min="limit.min"
         :max="limit.max"
@@ -91,10 +91,10 @@
 
     <!-- text -->
     <input 
-        v-if="propsOption.type === 'text'"
+        v-if="props.type === 'text'"
         type="text"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="[
             'b3-text-field', 
             {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
@@ -106,10 +106,10 @@
 
     <!-- textarea -->
     <textarea 
-        v-if="propsOption.type === 'textarea'"
+        v-if="props.type === 'textarea'"
         type="text"
         :disabled="disabled"
-        :readonly="propsOption.readonly"
+        :readonly="props.readonly"
         :class="[
             'b3-text-field', 
             {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
@@ -122,46 +122,60 @@
 </template>
 
 <script setup lang="ts">
-    import { computed, ref } from 'vue';
-    import { IInputPropsOption, ILimits } from '.';
-    import Svg from '../misc/Svg.vue';
+import { computed, ref } from 'vue';
+import { IOption, ILimits } from '.';
+import Svg from '../misc/Svg.vue';
 
-    const propsOption = withDefaults(defineProps<IInputPropsOption>(), {
-        block: false,
-        normal: true,
-        alterable: true,
-        disabled: false,
-        readonly: false,
-        style: "",
-        limit: () => { return { min: 0, max: 100, step: 1 } as ILimits },
-        placeholder: "",
-    });
-    defineEmits(["clicked", "changed"]);
-    const dynamicValue = ref(propsOption.settingValue);
-    const value = computed({
-        get() {
-            return propsOption.alterable ? dynamicValue.value : propsOption.settingValue
-        },
-        set(newValue) {
-            dynamicValue.value = newValue
-        }
-    })
-
-    function showPassword(event: Event) {
-        const targetElement = event.target as HTMLElement;
-        const parentElement = targetElement.parentElement;
-        const previousElement = parentElement.previousElementSibling as HTMLInputElement;
-        previousElement.type = previousElement.type === "password" ? "text" : "password";
+type IInputType = "button" | "checkbox" | "number" | "password" | "select" | "slider" | "text" | "textarea"
+const props = withDefaults(defineProps<{
+    type: IInputType,               // 类型
+    settingKey: string,             // 标识符
+    settingValue: string,           // 绑定的值
+    style?: string,                 // 绑定样式
+    limit?: ILimits,                // 可选范围 ({ min: 0, max: 100, step: 1 }) | slider, number
+    options?: IOption[],            // 可选列表 ({ key: string, text: string }[]) | select
+    placeholder?: string,           // 占位文本 | text, textarea
+    block?: boolean,                // 使用 fn__block (width: 100%;)
+    normal?: boolean,               // 使用 fn__size200 (width: 200px)
+    readonly?: boolean,             // 只读
+    disabled?: boolean,             // 禁用交互
+    alterable?: boolean,            // 数据是否可变
+}>(), {
+    block: false,
+    normal: true,
+    alterable: true,
+    disabled: false,
+    readonly: false,
+    style: "",
+    limit: () => { return { min: 0, max: 100, step: 1 } as ILimits },
+    placeholder: "",
+});
+defineEmits(["clicked", "changed"])
+const dynamicValue = ref(props.settingValue)
+const value = computed({
+    get() {
+        return props.alterable ? dynamicValue.value : props.settingValue
+    },
+    set(newValue) {
+        dynamicValue.value = newValue
     }
+})
+
+function showPassword(event: Event) {
+    const targetElement = event.target as HTMLElement
+    const parentElement = targetElement.parentElement
+    const previousElement = parentElement.previousElementSibling as HTMLInputElement
+    previousElement.type = previousElement.type === "password" ? "text" : "password"
+}
 </script>
 
 <style>
-    .custom-password-preview {
-        position: absolute;
-        right: 30px;
-    }
+.custom-password-preview {
+    position: absolute;
+    right: 30px;
+}
 
-    .custom-password-preview > svg{
-        display: flex;
-    }
+.custom-password-preview > svg{
+    display: flex;
+}
 </style>

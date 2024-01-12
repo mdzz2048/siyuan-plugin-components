@@ -6,8 +6,8 @@
                 role="button"
                 v-for="tab in tabs"
                 :data-type="tab.name"
-                :class="['item item--full', {'item--focus': tab.focus}]"
-                @click="$emit('tabChanged', tab, 'tab')"
+                :class="['item item--full', {'item--focus': tab.key === focus}]"
+                @click="tabChanged(tab)"
             >
                 <span class="fn__flex-1" />
 
@@ -25,9 +25,18 @@
 </template>
 
 <script setup lang="ts">
-    import Svg from '../misc/Svg.vue';
-    import { ITabsPropsOption } from '.'
+import { ref } from 'vue';
+import { ITab } from '.'
+import Svg from '../misc/Svg.vue';
 
-    defineProps<ITabsPropsOption>();
-    defineEmits(['tabChanged']);
+const props = defineProps<{
+    tabs: ITab[],
+}>()
+const focus = ref(props.tabs[0].key)
+const emits = defineEmits(['tabChanged'])
+
+function tabChanged(tab: ITab) {
+    focus.value = tab.key
+    emits('tabChanged', tab, 'tab')
+}
 </script>

@@ -24,15 +24,17 @@
 </template>
 
 <script setup lang="ts">
-    import { IItemPropsOption } from ".";
-
-    withDefaults(defineProps<IItemPropsOption>(), {
-        block: false,
-    });
+withDefaults(defineProps<{
+    title: string,              // 标题
+    text: string,               // 提示文本
+    block?: boolean,            // 是否占据整行
+}>(), {
+    block: false,
+})
 </script>
 
 <style>
-    .visible {
-        overflow: visible;
-    }
+.visible {
+    overflow: visible;
+}
 </style>
