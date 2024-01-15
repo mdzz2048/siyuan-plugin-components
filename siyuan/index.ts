@@ -8,6 +8,8 @@ import TabsVue from "./setting/Tabs.vue";
 import SvgVue from "./misc/Svg.vue";
 import TipsVue from "./dialog/Tips.vue";
 
+import { ILimits, IOption, ITab } from "./setting";
+
 
 export default {
     // setting
@@ -16,4 +18,8 @@ export default {
     SvgVue,
     // dialog
     TipsVue,
+}
+
+export type {
+    ILimits, IOption, ITab
 }
