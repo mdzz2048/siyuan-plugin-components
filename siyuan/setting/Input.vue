@@ -29,7 +29,9 @@
         type="number"
         :disabled="disabled"
         :readonly="props.readonly"
-        :class="['b3-text-field', {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
+        :class="[
+            'b3-text-field', 
+            {'fn__block': block, 'fn__flex-center': !block, 'fn__size200': !block && normal}]"
         :min="limit.min"
         :max="limit.max"
         :step="limit.step"
@@ -119,6 +121,23 @@
         @change="$emit('changed', settingKey, value)"
     />
 
+    <template v-if="props.type === 'search'">
+        <div class="b3-form__icon">
+            <Svg icon="#iconSearch" class="b3-form__icon-icon"></Svg>
+            <input
+                type="text"
+                :disabled="disabled"
+                :readonly="props.readonly"
+                :class="[
+                    'b3-text-field', 'b3-form__icon-input', 
+                    { 'fn__block ': block }]"
+                :placeholder="placeholder"
+                :style="style"
+                v-model="value"
+                @change="$emit('changed', settingKey, value)"
+            />
+        </div>
+    </template>
 </template>
 
 <script setup lang="ts">
@@ -126,7 +145,8 @@ import { computed, ref } from 'vue';
 import { IOption, ILimits } from '.';
 import Svg from '../misc/Svg.vue';
 
-type IInputType = "button" | "checkbox" | "number" | "password" | "select" | "slider" | "text" | "textarea"
+type IInputType = "button" | "checkbox" | "number" | "password" 
+    | "select" | "slider" | "text" | "textarea" | "search"
 const props = withDefaults(defineProps<{
     type: IInputType,               // 类型
     settingKey: string,             // 标识符
