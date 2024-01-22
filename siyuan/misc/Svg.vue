@@ -1,7 +1,6 @@
 <template>
     <svg
         :data-id="id"
-        :style="style"
         :class="[className, {'popover__block': regexp.id.test(id)}]"
     >
         <use :xlink:href="icon"></use>
@@ -15,11 +14,9 @@
         icon: string,
         id?: string,
         className?: string,
-        style?: string,
     }
     withDefaults(defineProps<IPropsOption>(), {
         id: "",
         className: "",
-        style: "",
     });
 </script>
